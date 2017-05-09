@@ -1,11 +1,7 @@
 # -*- coding: utf-8 -*-
-import discord, sys, asyncio, re, random, os, time
+import discord, sys, asyncio, re, random, os, time, platform
 from discord.ext.commands import Bot
-from os import environ
-from flask import Flask
-
-app = Flask(__name__)
-app.run(environ.get('PORT'))
+from discord.ext import commands
 
 class bcolors:
     HEADER = '\033[95m'
@@ -17,7 +13,21 @@ class bcolors:
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
 
+
 client = discord.Client()
+
+@client.event
+async def on_member_join(member):
+    server = member.server
+    fmt = "{0.mention} a rejoint le serveur !"
+    await client.send_message(server,fmt.format(member))
+    await client.add_roles(member, discord.Object("310129439256084482"))
+
+@client.event
+async def on_member_remove(member):
+    server = member.server
+    fmt = "{0.mention} a quitté le serveur.."
+    await client.send_message(server,fmt.format(member))
 
 @client.event
 async def on_ready():
@@ -78,16 +88,18 @@ async def on_message(message):
         author=message.author
         print (bcolors.WARNING + (time.strftime("%d/%m/%Y %H:%M:%S")) + bcolors.ENDC, ":", bcolors.WARNING + ("{}").format(author.name) + bcolors.ENDC, "a éxécuté la commande", bcolors.WARNING + ("!clear") + bcolors.ENDC, "avec succès.")
 
-#!askfranky répond Oui, Non ou Peut-être de manière aléatoire
+#!askfranky répond Oui, Non ou Peut-être de manière aléatoire avec un peu de suspense 
 
     elif message.content.startswith("!askfranky"):
+        await client.send_typing(message.channel)
+        await asyncio.sleep(5)
         options = ["Oui","Non","Peut-être"]
         option = random.choice(options)
         await client.send_message(message.channel, '{}'.format(option))
         author=message.author
         print (bcolors.WARNING + (time.strftime("%d/%m/%Y %H:%M:%S")) + bcolors.ENDC, ":", bcolors.WARNING + ("{}").format(author.name) + bcolors.ENDC, "a éxécuté la commande", bcolors.WARNING + ("!askfranky") + bcolors.ENDC, "avec succès.")
 
-#!reload pour redémarrer le bot
+#!reload réinitialise le bot
 
     elif message.content.startswith("!reload"):
         tmp = await client.send_message(message.channel, "**Redémarrage du bot en cours.**")
@@ -101,6 +113,11 @@ async def on_message(message):
         python = sys.executable
         os.execl(python, python, * sys.argv)
 
+#!botsysteminfo Donne des infos sur le systeme du bot
+
+    elif message.content.startswith("!botsysteminfo"):
+        await client.send_message(message.channel, "Linux Ubunut 16.04 Xenial 64bit")
+        await client.send_message(message.channel, "Bot server hosted by Amazon")
 
 
 client.run("MzEwODg4ODQyNTgyNTU2Njg0.C_EjNA.gwJ4yCCiEMxsQW6ryLYZ57Vss4o")

@@ -21,4 +21,4 @@ python-dateutil==1.5
 pytz==2013.7
 requests==2.13.0
 requests-toolbelt==0.7.1
-scipy==0.13.0b1
+scipy

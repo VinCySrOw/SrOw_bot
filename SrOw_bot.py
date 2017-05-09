@@ -74,7 +74,7 @@ async def on_message(message):
 #!help pour une liste des commandes
 
     elif message.content.startswith('!help'):
-        await client.send_message(message.channel, '**!messages_count** : Savoir combien de messages vous avez sur le channel \n**!clear** : Nettoie le channel \n**!askfranky** : Vous répond Oui, Non ou Peut-être de manière aléatoire \n**!sleep** : Donnez un peu de repos a Franky ! \n**!reload** : Redémarre le bot \n**!botsysteminfo** : Donne des informations sur le système du bot')
+        await client.send_message(message.channel, '**!messages_count** : Savoir combien de messages vous avez sur le channel \n**!clear** : Nettoie le channel \n**!askfranky** : Vous répond Oui, Non ou Peut-être de manière aléatoire \n**!sleep** : Donnez un peu de repos a Franky ! \n**!reload** : Redémarre le bot \n**!botsysteminfo** : Donne des informations sur le système du bot\n**!gitbot** : Envoi un lien vers le répertoire GitHub du bot')
         author=message.author
         print (bcolors.WARNING + (time.strftime("%d/%m/%Y %H:%M:%S")) + bcolors.ENDC, ":", bcolors.WARNING + ("{}").format(author.name) + bcolors.ENDC, "a éxécuté la commande", bcolors.WARNING + ("!help") + bcolors.ENDC, "avec succès.")
 
@@ -125,5 +125,12 @@ async def on_message(message):
         author=message.author
         print (bcolors.WARNING + (time.strftime("%d/%m/%Y %H:%M:%S")) + bcolors.ENDC, ":", bcolors.WARNING + ("{}").format(author.name) + bcolors.ENDC, "a éxécuté la commande", bcolors.WARNING + ("!botsysteminfo") + bcolors.ENDC, "avec succès.")
 
+#!gitbot Envoie le lien du github du bot
+
+    elif message.content.startswith("!gitbot"):
+        await client.send_message(message.channel, "Voici le répertoire GitHub du bot, n'oubliez pas de donner crédits si vous en faite usage..")
+        await client.send_typing(message.channel)
+        await asyncio.sleep(5)
+        await client.send_message(message.channel, "https://github.com/VinCySrOw/SrOw_bot")
 
 client.run("MzEwODg4ODQyNTgyNTU2Njg0.C_EjNA.gwJ4yCCiEMxsQW6ryLYZ57Vss4o")

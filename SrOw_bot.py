@@ -134,4 +134,4 @@ async def on_message(message):
         await asyncio.sleep(5)
         await client.send_message(message.channel, "https://github.com/VinCySrOw/SrOw_bot")
 
-client.run("MzEwODg4ODQyNTgyNTU2Njg0.C_EjNA.gwJ4yCCiEMxsQW6ryLYZ57Vss4o")
+client.run("xxxxxxxxxxxxxxxxxxxx")

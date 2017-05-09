@@ -1,4 +1,5 @@
 discord.py==0.16.6
+gunicorn==19.7.1
 aiohttp
 websockets
 chardet

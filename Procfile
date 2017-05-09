@@ -1,0 +1,1 @@
+gunicorn gettingstarted.wsgi

@@ -1,1 +1,1 @@
-gunicorn gettingstarted.wsgi
+python SrOw_bot.py

@@ -82,6 +82,7 @@ async def on_message(message):
         author=message.author
         print (bcolors.WARNING + (time.strftime("%d/%m/%Y %H:%M:%S")) + bcolors.ENDC, ":", bcolors.WARNING + ("{}").format(author.name) + bcolors.ENDC, "a éxécuté la commande", bcolors.WARNING + ("!askfranky") + bcolors.ENDC, "avec succès.")
 
+#!reload pour redémarrer le bot
 
     elif message.content.startswith("!reload"):
         tmp = await client.send_message(message.channel, "**Redémarrage du bot en cours.**")

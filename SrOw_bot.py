@@ -21,6 +21,7 @@ async def on_member_join(member):
     server = member.server
     fmt = "{0.mention} a rejoint le serveur !"
     await client.send_message(server,fmt.format(member))
+    await client.send_message(server, "!help pour une liste des commandes !")
     await client.add_roles(member, discord.Object("310129439256084482"))
     author=member
     print (bcolors.WARNING + (time.strftime("%d/%m/%Y %H:%M:%S")) + bcolors.ENDC, ":", bcolors.WARNING + ("{}").format(author.name) + bcolors.ENDC, "s'est connecté", bcolors.WARNING + ("et est devenu Random") + bcolors.ENDC, "avec succès.")

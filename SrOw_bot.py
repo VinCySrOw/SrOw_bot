@@ -22,7 +22,7 @@ async def on_member_join(member):
     fmt = "{0.mention} a rejoint le serveur !"
     await client.send_message(server,fmt.format(member))
     await client.add_roles(member, discord.Object("310129439256084482"))
-    author=message.author
+    author=member
     print (bcolors.WARNING + (time.strftime("%d/%m/%Y %H:%M:%S")) + bcolors.ENDC, ":", bcolors.WARNING + ("{}").format(author.name) + bcolors.ENDC, "s'est connecté", bcolors.WARNING + ("et est devenu Random") + bcolors.ENDC, "avec succès.")
 
 @client.event
@@ -30,7 +30,7 @@ async def on_member_remove(member):
     server = member.server
     fmt = "{0.mention} a quitté le serveur.."
     await client.send_message(server,fmt.format(member))
-    author=message.author
+    author=member
     print (bcolors.WARNING + (time.strftime("%d/%m/%Y %H:%M:%S")) + bcolors.ENDC, ":", bcolors.WARNING + ("{}").format(author.name) + bcolors.ENDC, "a quitté le serveur", bcolors.WARNING + (":(") + bcolors.ENDC, "avec succès.")
 
 @client.event
@@ -74,7 +74,7 @@ async def on_message(message):
 #!help pour une liste des commandes
 
     elif message.content.startswith('!help'):
-        await client.send_message(message.channel, '**!messages_count** : Savoir combien de messages vous avez sur le channel \n**!clear** : Nettoie le channel \n**!askfranky** : Vous répond Oui, Non ou Peut-être de manière aléatoire \n**!sleep** : Donnez un peu de repos a Franky ! \n**!reload** : Redémarre le bot')
+        await client.send_message(message.channel, '**!messages_count** : Savoir combien de messages vous avez sur le channel \n**!clear** : Nettoie le channel \n**!askfranky** : Vous répond Oui, Non ou Peut-être de manière aléatoire \n**!sleep** : Donnez un peu de repos a Franky ! \n**!reload** : Redémarre le bot \n**!botsysteminfo** : Donne des informations sur le système du bot')
         author=message.author
         print (bcolors.WARNING + (time.strftime("%d/%m/%Y %H:%M:%S")) + bcolors.ENDC, ":", bcolors.WARNING + ("{}").format(author.name) + bcolors.ENDC, "a éxécuté la commande", bcolors.WARNING + ("!help") + bcolors.ENDC, "avec succès.")
 

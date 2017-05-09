@@ -22,12 +22,16 @@ async def on_member_join(member):
     fmt = "{0.mention} a rejoint le serveur !"
     await client.send_message(server,fmt.format(member))
     await client.add_roles(member, discord.Object("310129439256084482"))
+    author=message.author
+    print (bcolors.WARNING + (time.strftime("%d/%m/%Y %H:%M:%S")) + bcolors.ENDC, ":", bcolors.WARNING + ("{}").format(author.name) + bcolors.ENDC, "s'est connecté", bcolors.WARNING + ("et est devenu Random") + bcolors.ENDC, "avec succès.")
 
 @client.event
 async def on_member_remove(member):
     server = member.server
     fmt = "{0.mention} a quitté le serveur.."
     await client.send_message(server,fmt.format(member))
+    author=message.author
+    print (bcolors.WARNING + (time.strftime("%d/%m/%Y %H:%M:%S")) + bcolors.ENDC, ":", bcolors.WARNING + ("{}").format(author.name) + bcolors.ENDC, "a quitté le serveur", bcolors.WARNING + (":(") + bcolors.ENDC, "avec succès.")
 
 @client.event
 async def on_ready():
@@ -118,6 +122,8 @@ async def on_message(message):
     elif message.content.startswith("!botsysteminfo"):
         await client.send_message(message.channel, "Linux Ubunut 16.04 Xenial 64bit")
         await client.send_message(message.channel, "Bot server hosted by Amazon")
+        author=message.author
+        print (bcolors.WARNING + (time.strftime("%d/%m/%Y %H:%M:%S")) + bcolors.ENDC, ":", bcolors.WARNING + ("{}").format(author.name) + bcolors.ENDC, "a éxécuté la commande", bcolors.WARNING + ("!botsysteminfo") + bcolors.ENDC, "avec succès.")
 
 
 client.run("MzEwODg4ODQyNTgyNTU2Njg0.C_EjNA.gwJ4yCCiEMxsQW6ryLYZ57Vss4o")

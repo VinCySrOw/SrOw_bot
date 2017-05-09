@@ -1,6 +1,11 @@
 # -*- coding: utf-8 -*-
 import discord, sys, asyncio, re, random, os, time
 from discord.ext.commands import Bot
+from os import environ
+from flask import Flask
+
+app = Flask(__name__)
+app.run(environ.get('PORT'))
 
 class bcolors:
     HEADER = '\033[95m'

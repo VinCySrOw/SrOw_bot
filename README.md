@@ -1,4 +1,4 @@
 # SrOw_bot
-Simple one file bot..
+Simple bot..
 
 Simply wait for an update of the readme...

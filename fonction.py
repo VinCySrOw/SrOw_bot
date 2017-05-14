@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-import discord, sys, asyncio, re, random, os, time, platform, socket, psutil
+import discord, sys, asyncio, re, random, os, time, platform, socket, psutil, cpuinfo
+from requests import get
 from discord.ext.commands import Bot
 from discord.ext import commands
 
@@ -14,24 +15,19 @@ class bcolors:
     UNDERLINE = '\033[4m'
 
 '''
-Commonly used Variables
-'''
-
-is_Admin = discord.Permissions.administrator
-
-'''
 Events...
 '''
 
 async def on_bot_ready_events(client):
-    print (bcolors.FAIL + (time.strftime("%d/%m/%Y %H:%M:%S :")), ("Connexion de {} avec l'id {}").format(client.user.name, client.user.id)+ bcolors.ENDC)
-    await client.send_message(client.get_channel('310127519753830400'), "<:green_check_mark:312524276760707074> **Le bot a démarré sans erreur !**")
+    print (bcolors.OKGREEN + (time.strftime("%d/%m/%Y %H:%M:%S :")), ("Connexion de {} avec l'id {}").format(client.user.name, client.user.id) + bcolors.ENDC)
+    await client.send_file(client.get_channel('310127519753830400'), 'bot_ribbons/run.png')
+    await client.change_presence(game=discord.Game(name='!help ｜ BETA v0.3'))
 
 async def on_member_join_events(member, client):
     server = member.server
     fmt = "{0.mention} a rejoint le serveur !"
-    await client.send_message(server,fmt.format(member))
-    await client.send_message(server, "!help pour une liste des commandes !")
+    await client.send_file(server, 'bot_ribbons/bienvenue-ribbon-yellow-stitched.png')
+    await client.send_message(server, "Bienvenue sur le serveur, {0.mention}, **!help** pour avoir de l'aide !".format(member))
     await client.add_roles(member, discord.Object("310129439256084482"))
     print (bcolors.WARNING + (time.strftime("%d/%m/%Y %H:%M:%S")) + bcolors.ENDC, ":", bcolors.WARNING + ("{}").format(member.name) + bcolors.ENDC, "s'est connecté", bcolors.WARNING + ("et est devenu Random") + bcolors.ENDC, "avec succès.")
 
@@ -80,7 +76,8 @@ async def sleep_cmd(message, client):
 
 async def help_cmd(message, client):
     author = message.author
-    await client.send_message(message.channel, '**!messages_count** : Savoir combien de messages vous avez sur le channel \n**!clear** : Nettoie le channel **(doit être éxécutée par un admin)** \n**!askfranky** : Vous répond Oui, Non ou Peut-être de manière aléatoire \n**!sleep** : Donnez un peu de repos a Franky ! \n**!reload** : Redémarre le bot **(doit être éxécutée par un admin)** \n**!botsysteminfo** : Donne des informations sur le système du bot\n**!gitbot** : Envoi un lien vers le répertoire GitHub du bot')
+    await client.send_file(message.channel, 'bot_ribbons/help-ribbon-yellow-stitched.png')
+    await client.send_message(message.channel, '**!messages_count** : Savoir combien de messages vous avez sur le channel \n**!clear** : Nettoie le channel **(doit être éxécutée par un admin)** \n**!askfranky** : Vous répond Oui, Non ou Peut-être de manière aléatoire \n**!sleep** : Donnez un peu de repos a Franky ! \n**!reload** : Redémarre le bot **(doit être éxécutée par un admin)** \n**!botsysteminfo** : Donne des informations sur le système du bot\n**!gitbot** : Envoi un lien vers le répertoire GitHub du bot\n**!admincall** : Appelles un admin **(a utiliser uniquement en cas de besoin réel !)**\n**!ping** : Vous donne le temps de latence entre le serveur du bot et Google France')
     print (bcolors.WARNING + (time.strftime("%d/%m/%Y %H:%M:%S")) + bcolors.ENDC, ":", bcolors.WARNING + ("{}").format(author.name) + bcolors.ENDC, "a éxécuté la commande", bcolors.WARNING + ("!help") + bcolors.ENDC, "avec succès.")
 
 async def clear_cmd(message, client):
@@ -97,7 +94,7 @@ async def clear_cmd(message, client):
     else:
         await client.send_message(message.channel, "<:warning_sign:312526599473856512> **Vous n'êtes pas autorisé a faire cela !**")
         print (bcolors.WARNING + (time.strftime("%d/%m/%Y %H:%M:%S")) + bcolors.ENDC, ":", bcolors.WARNING + ("{}").format(author.name) + bcolors.ENDC, bcolors.FAIL + "a éxécuté la commande" + bcolors.ENDC, bcolors.WARNING + ("!clear") + bcolors.ENDC, bcolors.FAIL + "sans y être autorisé." + bcolors.ENDC)
-        await client.send_message(discord.Object("312523151126953984"), "**{}** a tenté d'éxécuter la commande **!clear** dans **#{}**".format(author.name, message.channel))
+        await client.send_message(discord.Object("312523151126953984"), "**{}** a tenté d'éxécuter la commande **!clear** dans **{}**".format(author.mention, message.channel.mention))
 
 
 async def  ask_franky_cmd(message, client):
@@ -106,6 +103,7 @@ async def  ask_franky_cmd(message, client):
     await asyncio.sleep(5)
     options = ["Oui","Non","Peut-être"]
     option = random.choice(options)
+    await client.send_file(message.channel, 'bot_ribbons/askfranky-ribbon-yellow-stitched.png')
     await client.send_message(message.channel, '{}'.format(option))
     print (bcolors.WARNING + (time.strftime("%d/%m/%Y %H:%M:%S")) + bcolors.ENDC, ":", bcolors.WARNING + ("{}").format(author.name) + bcolors.ENDC, "a éxécuté la commande", bcolors.WARNING + ("!askfranky") + bcolors.ENDC, "avec succès.")
 
@@ -123,52 +121,48 @@ async def reload_cmd(message, client):
     else:
         await client.send_message(message.channel, "<:warning_sign:312526599473856512> **Vous n'êtes pas autorisé a faire cela !**")
         print (bcolors.WARNING + (time.strftime("%d/%m/%Y %H:%M:%S")) + bcolors.ENDC, ":", bcolors.WARNING + ("{}").format(author.name) + bcolors.ENDC, bcolors.FAIL + "a éxécuté la commande" + bcolors.ENDC, bcolors.WARNING + ("!reload") + bcolors.ENDC, bcolors.FAIL + "sans y être autorisé." + bcolors.ENDC)
-        await client.send_message(discord.Object("312523151126953984"), "**{}** a tenté d'éxécuter la commande **!reload** dans **#{}**".format(author.name, message.channel))
+        await client.send_message(discord.Object("312523151126953984"), "**{}** a tenté d'éxécuter la commande **!reload** dans **{}**".format(author.mention, message.channel.mention))
 
 async def bot_system_info(message, client):
+    await client.send_file(message.channel, 'bot_ribbons/botsysteminfo-ribbon-yellow-stitched.png')
+    await client.send_typing(message.channel)
     author = message.author
-    tmp = await client.send_message(message.channel, "**Chargement des données.**")
-    await client.edit_message(tmp, "**Chargement des données.**")
-    await asyncio.sleep(1)
-    tmp = await client.edit_message(tmp, "**Chargement des données..**")
-    await asyncio.sleep(1)
-    await client.edit_message(tmp, "**Chargement des données...**")
+    extIP = get('https://ipapi.co/ip/').text
     networkAdress = socket.gethostbyname(socket.gethostname())
     currentUsageCPU = psutil.cpu_percent()
     pid = os.getpid()
     py = psutil.Process(pid)
     currentRamUsage = py.memory_info()[0]/2.**30
     os_uname = os.uname()
-    await client.edit_message(tmp, "L'utilisation actuelle du processeur est de **{}**%".format(currentUsageCPU))
-    await client.send_message(message.channel, "L'utilisation actuelle de la RAM est de **{}**Gb".format(round(currentRamUsage, 3)))
-    await client.send_message(message.channel, "L'adresse IP du serveur du bot est **{}**".format(networkAdress))
-    await client.send_message(message.channel, "Le serveur du bot est hébergé par **Amazon**")
+    info = cpuinfo.get_cpu_info()
+    info_cpu = info['brand']
+    from psutil import virtual_memory
+    mem = virtual_memory()
+    mem_total = mem.total
+    mem_total = mem_total / 1000000000
+    st = psutil.disk_usage('/')
+    st = st.total / 1000000000
+    disk_used = psutil.disk_usage('/')
+    disk_used = disk_used.used / 1000000000
+    await client.send_message(message.channel, "**Configuration matérielle du serveur :**\nProcesseur : **{}**\nMémoire RAM : **{}**Gb\nCapacité totale du disque : **{}**Gb\nLe serveur du bot est hébergé par **Amazon USA Ouest (Oregon)**\n\n**Utilisation actuelle du serveur :**\nL'utilisation actuelle du processeur est de **{}**%\nL'utilisation actuelle de la RAM est de **{}**Gb\nL'utilisation du disque et de : **{}**Gb\nL'adresse IP du serveur du bot est **{}**".format(info_cpu, round(mem_total, 2), round(st, 2), currentUsageCPU, round(currentRamUsage, 3), round(disk_used, 2), extIP))
     print (bcolors.WARNING + (time.strftime("%d/%m/%Y %H:%M:%S")) + bcolors.ENDC, ":", bcolors.WARNING + ("{}").format(author.name) + bcolors.ENDC, "a éxécuté la commande", bcolors.WARNING + ("!botsysteminfo") + bcolors.ENDC, "avec succès.")
 
 async def bot_github(message, client):
     author = message.author
+    await client.send_file(message.channel, 'bot_ribbons/gitbot-ribbon-yellow-stitched.png')
     await client.send_message(message.channel, "Voici le répertoire GitHub du bot, n'oubliez pas de donner crédits si vous en faite usage..")
     await client.send_typing(message.channel)
     await asyncio.sleep(5)
     await client.send_message(message.channel, "https://github.com/VinCySrOw/SrOw_bot")
+    print (bcolors.WARNING + (time.strftime("%d/%m/%Y %H:%M:%S")) + bcolors.ENDC, ":", bcolors.WARNING + ("{}").format(author.name) + bcolors.ENDC, "a éxécuté la commande", bcolors.WARNING + ("!gitbot") + bcolors.ENDC, "avec succès.")
 
-async def get_role(message, client):
+async def admin_call(message, client):
     author = message.author
-    if author.server_permissions.administrator == True:
-        await client.send_message(message.channel, "Ok c'est bon")
-    else:
-        await client.send_message(message.channel, "Vous n'êtes pas autorisé a faire cela.")
+    await client.send_message(message.channel, "<@&310129098020093953>" + ": un administrateur a été appelé.")
+    await client.send_message(discord.Object("312523151126953984"), "**{}** a appelé un admin dans **{}**".format(author.mention, message.channel.mention))
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+async def ping(message, client):
+    ping_FR = os.popen("ping -c 1 www.google.fr | tail -1| awk '{print $4}' | cut -d '/' -f 2").read()
+    ping_FR = float(ping_FR)
+    await client.send_file(message.channel, 'bot_ribbons/ping-ribbon-yellow-stitched.png')
+    await client.send_message(message.channel, "Le serveur a **{}**ms de ping vers Google France.".format(round(ping_FR,2)))

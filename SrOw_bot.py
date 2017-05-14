@@ -46,7 +46,10 @@ async def on_message(message):
     elif message.content.startswith(prefix + 'gitbot'):
         await fonction.bot_github(message, client)
 
-    elif message.content.startswith(prefix + 'getrole'):
-        await fonction.get_role(message, client)
+    elif message.content.startswith(prefix + 'ping'):
+        await fonction.ping(message, client)
 
-client.run("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
+    elif message.content.startswith(prefix + 'admincall'):
+        await fonction.admin_call(message, client)
+
+client.run("MzEwODg4ODQyNTgyNTU2Njg0.C_Ow0g.aEdalxmoDfY-AC4flFpD1IshJmw")

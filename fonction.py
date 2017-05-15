@@ -20,7 +20,9 @@ Events...
 
 async def on_bot_ready_events(client):
     print (bcolors.OKGREEN + (time.strftime("%d/%m/%Y %H:%M:%S :")), ("Connexion de {} avec l'id {}").format(client.user.name, client.user.id) + bcolors.ENDC)
-    await client.send_file(client.get_channel('310127519753830400'), 'bot_ribbons/run.png')
+    em = discord.Embed(title='Le bot a redémarré', description="Nous nous éfforçons de continuellement améliorer le bot,\nce redémarrage est pour nous le seul moyen pour mettre a jour Franky.\nNous sommes désolés pour les désagréments.", colour=0x43b581)
+    em.set_footer(text=time.strftime("Le %d/%m/%Y à %H:%M:%S"))
+    await client.send_message(client.get_channel('310127519753830400'), embed=em)
     await client.change_presence(game=discord.Game(name='!help ｜ BETA v0.3'))
 
 async def on_member_join_events(member, client):
@@ -77,7 +79,7 @@ async def sleep_cmd(message, client):
 async def help_cmd(message, client):
     author = message.author
     await client.send_file(message.channel, 'bot_ribbons/help-ribbon-yellow-stitched.png')
-    await client.send_message(message.channel, '**!messages_count** : Savoir combien de messages vous avez sur le channel \n**!clear** : Nettoie le channel **(doit être éxécutée par un admin)** \n**!askfranky** : Vous répond Oui, Non ou Peut-être de manière aléatoire \n**!sleep** : Donnez un peu de repos a Franky ! \n**!reload** : Redémarre le bot **(doit être éxécutée par un admin)** \n**!botsysteminfo** : Donne des informations sur le système du bot\n**!gitbot** : Envoi un lien vers le répertoire GitHub du bot\n**!admincall** : Appelles un admin **(a utiliser uniquement en cas de besoin réel !)**\n**!ping** : Vous donne le temps de latence entre le serveur du bot et Google France')
+    await client.send_message(message.channel, "**!messages_count** : Savoir combien de messages vous avez sur le channel \n**!clear** : Nettoie le channel **(doit être éxécutée par un admin)** \n**!askfranky** : Vous répond Oui, Non ou Peut-être de manière aléatoire \n**!sleep** : Donnez un peu de repos a Franky ! \n**!reload** : Redémarre le bot **(doit être éxécutée par un admin)** \n**!botsysteminfo** : Donne des informations sur le système du bot\n**!gitbot** : Envoi un lien vers le répertoire GitHub du bot\n**!admincall** : Appelles un admin **(a utiliser uniquement en cas de besoin réel !)**\n**!ping** : Vous donne le temps de latence entre le serveur du bot et Google France\n**!frankyonmyserver** : Vous permet d'ajouter Franky sur votre serveur !")
     print (bcolors.WARNING + (time.strftime("%d/%m/%Y %H:%M:%S")) + bcolors.ENDC, ":", bcolors.WARNING + ("{}").format(author.name) + bcolors.ENDC, "a éxécuté la commande", bcolors.WARNING + ("!help") + bcolors.ENDC, "avec succès.")
 
 async def clear_cmd(message, client):
@@ -153,16 +155,28 @@ async def bot_github(message, client):
     await client.send_message(message.channel, "Voici le répertoire GitHub du bot, n'oubliez pas de donner crédits si vous en faite usage..")
     await client.send_typing(message.channel)
     await asyncio.sleep(5)
-    await client.send_message(message.channel, "https://github.com/VinCySrOw/SrOw_bot")
+    em = discord.Embed(title='Voici le lien :', description='[Répertoire GitHub : SrOw_bot par SrOw](https://github.com/VinCySrOw/SrOw_bot)', colour=0x43b581)
+    em.set_author(name='GitHub', icon_url="https://github.com/fluidicon.png")
+    em.set_footer(text=time.strftime("Le %d/%m/%Y à %H:%M:%S"))
+    await client.send_message(message.channel, embed=em)
     print (bcolors.WARNING + (time.strftime("%d/%m/%Y %H:%M:%S")) + bcolors.ENDC, ":", bcolors.WARNING + ("{}").format(author.name) + bcolors.ENDC, "a éxécuté la commande", bcolors.WARNING + ("!gitbot") + bcolors.ENDC, "avec succès.")
 
 async def admin_call(message, client):
     author = message.author
-    await client.send_message(message.channel, "<@&310129098020093953>" + ": un administrateur a été appelé.")
+    await client.send_file(message.channel, 'bot_ribbons/admincall-ribbon-yellow-stitched.png')
+    await client.send_message(message.channel, "Un administrateur a été appelé.")
     await client.send_message(discord.Object("312523151126953984"), "**{}** a appelé un admin dans **{}**".format(author.mention, message.channel.mention))
+    print (bcolors.WARNING + (time.strftime("%d/%m/%Y %H:%M:%S")) + bcolors.ENDC, ":", bcolors.WARNING + ("{}").format(author.name) + bcolors.ENDC, "a appelé un admin dans", bcolors.WARNING + ("#{}".format(message.channel.name)) + bcolors.ENDC, "avec succès.")
 
 async def ping(message, client):
     ping_FR = os.popen("ping -c 1 www.google.fr | tail -1| awk '{print $4}' | cut -d '/' -f 2").read()
     ping_FR = float(ping_FR)
     await client.send_file(message.channel, 'bot_ribbons/ping-ribbon-yellow-stitched.png')
     await client.send_message(message.channel, "Le serveur a **{}**ms de ping vers Google France.".format(round(ping_FR,2)))
+    print (bcolors.WARNING + (time.strftime("%d/%m/%Y %H:%M:%S")) + bcolors.ENDC, ":", bcolors.WARNING + ("{}").format(author.name) + bcolors.ENDC, "a éxécuté la commande", bcolors.WARNING + ("!ping") + bcolors.ENDC, "avec succès.")
+
+async def franky_on_my_server(message, client):
+    em = discord.Embed(title='Franky sur votre serveur !', description="Pour ajouter Franky a votre serveur, cliquez **[sur ce lien !](https://discordapp.com/oauth2/authorize?client_id=313592994886320139&scope=bot&permissions=0)", colour=0x43b581)
+    em.set_author(name='SrOw')
+    em.set_footer(text=time.strftime("Le %d/%m/%Y à %H:%M:%S"))
+    await client.send_message(message.channel, embed=em)

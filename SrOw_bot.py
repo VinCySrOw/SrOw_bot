@@ -6,10 +6,15 @@ import fonction
 
 prefix = "!"
 client = discord.Client()
+server = discord.Server.name
 
 @client.event
 async def on_ready():
     await fonction.on_bot_ready_events(client)
+
+@client.event
+async def on_server_join(self):
+    print('joining {0}'.format(server.name))
 
 @client.event
 async def on_member_join(member):
@@ -52,4 +57,7 @@ async def on_message(message):
     elif message.content.startswith(prefix + 'admincall'):
         await fonction.admin_call(message, client)
 
-client.run("MzEwODg4ODQyNTgyNTU2Njg0.C_Ow0g.aEdalxmoDfY-AC4flFpD1IshJmw")
+    elif message.content.startswith(prefix + 'frankyonmyserver'):
+        await fonction.franky_on_my_server(message, client)
+
+client.run("xxxxxxxxxxx")

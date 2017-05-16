@@ -82,7 +82,7 @@ async def on_member_remove(member):
 
 @bot.event
 async def on_server_join(server):
-    server = member.server
+    member = server.me
     server_name = server.name
     em = discord.Embed(title='Bonjour, je suis Franky !', 
         description=("N'oubliez pas de me donner un rôle ayant les droits d'administration,"
@@ -258,6 +258,14 @@ async def clear(ctx):
             em3.set_footer(text=time.strftime("Le %d/%m/%Y à %H:%M:%S"))
             await bot.send_message(discord.Object(channel_id), embed=em3)
     else:
+        em2 = discord.Embed(title="Vous n'êtes pas autorisé a faire cela !", 
+            description="Seuls les administrateurs peuvent lancer cetter commande.", colour=0xe74c3c)
+
+        command_logs_critics(cmd_str, author, message)
+
+        em2.set_footer(text=time.strftime("Le %d/%m/%Y à %H:%M:%S"))
+        await bot.say(embed=em2)
+        
         em2 = discord.Embed(title="Salon d'administration non trouvé..", 
             description=("Le bot a besoin d'un salon **administration_bot** pour fonctionner correctement..\n"
                 "Si vous en avez déjà créé un, vérifier que vous l'avez bien orthographié. "), colour=0xe74c3c)
@@ -344,7 +352,7 @@ async def frankyonmyserver(ctx):
     command_logs(cmd_str, author, message)
     em = discord.Embed(title='Franky sur votre serveur !', 
     description=("Pour ajouter Franky a votre serveur, cliquez "
-    "**[sur ce lien !](https://discordapp.com/oauth2/authorize?client_id=314031841642414080&scope=bot&permissions=0)**"), colour=0x43b581)
+    "**[sur ce lien !](https://discordapp.com/oauth2/authorize?client_id=314031841642414080&scope=bot&permissions=8)**"), colour=0x43b581)
     em.set_footer(text=time.strftime("Le %d/%m/%Y à %H:%M:%S"))
     await bot.say(embed=em)
 

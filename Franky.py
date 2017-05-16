@@ -91,12 +91,20 @@ async def on_server_join(server):
 
 @bot.event
 async def on_command_error(error, ctx):
+    cmd_str = "inconnue"
+    message = ctx.message
     channel = ctx.message.channel
     member = ctx.message.author
+    author = member
     if isinstance(error, commands.CommandNotFound):
         em = discord.Embed(title=member.name + ', je ne connais pas cette commande.. ', colour=0xe74c3c)
         em.set_footer(text=time.strftime("Le %d/%m/%Y à %H:%M:%S"))
         await bot.send_message(channel, embed=em)
+        print (bcolors.WARNING + (time.strftime("%d/%m/%Y %H:%M:%S")) + 
+            bcolors.ENDC, ":", bcolors.WARNING + ("{}").format(author.name) + 
+            bcolors.ENDC, "a éxécuté une commande", bcolors.WARNING + (cmd_str)
+             + bcolors.ENDC, "sur le serveur : ", bcolors.WARNING + 
+             message.server.name + bcolors.ENDC)
 
 @bot.command(pass_context=True)
 async def botsysteminfo(ctx):

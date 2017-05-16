@@ -11,7 +11,6 @@ En effet, Franky a un système d'alertes qui vous préviens si un membre non aut
 >![image pour !clear non autorisé](https://github.com/VinCySrOw/SrOw_bot/blob/master/readme_images/Capture%20d’écran%202017-05-16%20à%2014.29.56.png)
 >![image pour !admincall](https://github.com/VinCySrOw/SrOw_bot/blob/master/readme_images/Capture%20d’écran%202017-05-16%20à%2014.30.30.png)
 
-----------
 ## Le code source est mit a disposition dans un but éducatif ##
 L'entièreté du code source est mise a disposition pour que vous puissiez vous inspirer, cependant, s'il vous plait utiliser le lien oauth2 pour ajouter le bot a votre serveur. 
 

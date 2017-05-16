@@ -1,7 +1,7 @@
 ## Le code source est mit a disposition dans un but éducatif ##
 L'entièreté du code source est mise a disposition pour que vous puissiez vous inspirer, cependant, s'il vous plait utiliser le lien oauth2 pour ajouter le bot a votre serveur. 
 
-**Ajouter Franky a votre serveur [en cliquant ici](https://discordapp.com/oauth2/authorize?client_id=313789513522610176&scope=bot&permissions=0)**
+**Ajouter Franky a votre serveur [en cliquant ici](https://discordapp.com/oauth2/authorize?client_id=314031841642414080&scope=bot&permissions=0)**
 
 ## Franky, le bot simple et totalement en français ! ##
 Franky est conçu pour fonctionner "out of the box", c'est a dire qu'il ne nécessite aucune configuration externe, tout se passe dans discord !

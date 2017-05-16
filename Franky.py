@@ -54,34 +54,36 @@ async def on_ready():
 @bot.event
 async def on_member_join(member):
     server = member.server
-    
+    server_name = server.name
     em = discord.Embed(title='Bienvenue sur le serveur, ' + member.name, 
         description="**!help** pour avoir de l'aide !", colour=0x43b581)
 
     em.set_footer(text=time.strftime("Le %d/%m/%Y à %H:%M:%S"))
-    await bot.send_message(server, embed=em)
+    await bot.send_message(server.default_channel, embed=em)
     
     print (bcolors.WARNING + (time.strftime("%d/%m/%Y %H:%M:%S")) + bcolors.ENDC, ":", 
         bcolors.WARNING + ("{}").format(member.name) + 
-        bcolors.ENDC, "s'est connecté", bcolors.WARNING + ("et est devenu Random") + 
-        bcolors.ENDC, "avec succès sur le serveur : ", 
-        bcolors.WARNING + message.server.name + bcolors.ENDC)
+        bcolors.ENDC, "s'est connecté avec succès sur le serveur : ", 
+        bcolors.WARNING + server_name + bcolors.ENDC)
 
 @bot.event
 async def on_member_remove(member):
     server = member.server
+    server_name = server.name
     em = discord.Embed(title=member.name + ' a quitté le serveur..', colour=0xe74c3c)
     em.set_footer(text=time.strftime("Le %d/%m/%Y à %H:%M:%S"))
-    await bot.send_message(server, embed=em)
+    await bot.send_message(server.default_channel, embed=em)
     
     print (bcolors.WARNING + (time.strftime("%d/%m/%Y %H:%M:%S")) + bcolors.ENDC, ":", 
         bcolors.WARNING + ("{}").format(member.name) + 
         bcolors.ENDC, "a quitté le serveur", bcolors.WARNING + (":(") + 
         bcolors.ENDC, "avec succès sur le serveur : ", 
-        bcolors.WARNING + message.server.name + bcolors.ENDC)
+        bcolors.WARNING + server_name + bcolors.ENDC)
 
 @bot.event
 async def on_server_join(server):
+    server = member.server
+    server_name = server.name
     em = discord.Embed(title='Bonjour, je suis Franky !', 
         description=("N'oubliez pas de me donner un rôle ayant les droits d'administration,"
         " ou je ne pourrai rien faire pour vous aider.."), colour=0x43b581)
@@ -326,8 +328,8 @@ async def frankyonmyserver(ctx):
     command_logs(cmd_str, author, message)
     em = discord.Embed(title='Franky sur votre serveur !', 
     description=("Pour ajouter Franky a votre serveur, cliquez "
-    "**[sur ce lien !](https://discordapp.com/oauth2/authorize?client_id=313789513522610176&scope=bot&permissions=0)**"), colour=0x43b581)
+    "**[sur ce lien !](https://discordapp.com/oauth2/authorize?client_id=314031841642414080&scope=bot&permissions=0)**"), colour=0x43b581)
     em.set_footer(text=time.strftime("Le %d/%m/%Y à %H:%M:%S"))
     await bot.say(embed=em)
 
-bot.run('MzEzNzg5NTEzNTIyNjEwMTc2.C_x7Dg.DFajy0F2DU3guQfvVthSZvHAJKM')
+bot.run('MzE0MDMxODQxNjQyNDE0MDgw.C_yQdQ.j_fhmX6hK1IUM63UNFux5exbsGE')

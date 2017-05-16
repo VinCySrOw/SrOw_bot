@@ -56,7 +56,7 @@ async def on_member_join(member):
     server = member.server
     server_name = server.name
     em = discord.Embed(title='Bienvenue sur le serveur, ' + member.name, 
-        description="**!help** pour avoir de l'aide !", colour=0x43b581)
+        description="**!help** pour avoir de l'aide !", colour=0x3498db)
 
     em.set_footer(text=time.strftime("Le %d/%m/%Y à %H:%M:%S"))
     await bot.send_message(server.default_channel, embed=em)
@@ -88,6 +88,15 @@ async def on_server_join(server):
         description=("N'oubliez pas de me donner un rôle ayant les droits d'administration,"
         " ou je ne pourrai rien faire pour vous aider.."), colour=0x43b581)
     await bot.send_message(server.default_channel, embed=em)
+
+@bot.event
+async def on_command_error(error, ctx):
+    channel = ctx.message.channel
+    member = ctx.message.author
+    if isinstance(error, commands.CommandNotFound):
+        em = discord.Embed(title=member.name + ', je ne connais pas cette commande.. ', colour=0xe74c3c)
+        em.set_footer(text=time.strftime("Le %d/%m/%Y à %H:%M:%S"))
+        await bot.send_message(channel, embed=em)
 
 @bot.command(pass_context=True)
 async def botsysteminfo(ctx):
@@ -128,7 +137,6 @@ async def botsysteminfo(ctx):
     em.set_footer(text=time.strftime("Le %d/%m/%Y à %H:%M:%S"))
     await bot.say(embed=em)
     command_logs(cmd_str, author, message)
-    print(message.channel.id)
 
 @bot.command(pass_context=True)
 async def help(ctx):
@@ -314,7 +322,7 @@ async def ping(ctx):
     await bot.send_typing(message.channel)
     ping_FR = os.popen("ping -c 5 www.google.fr | tail -1| awk '{print $4}' | cut -d '/' -f 2").read()
     ping_FR = str(ping_FR)
-    em = discord.Embed(title="Le serveur a " + ping_FR + "ms de ping vers Google France", colour=0x43b581)
+    em = discord.Embed(title="Le serveur a " + ping_FR + "ms de ping vers Google France", colour=0x3498db)
     em.set_footer(text=time.strftime("Le %d/%m/%Y à %H:%M:%S"))
     await bot.say(embed=em)
     command_logs(cmd_str, author, message)
@@ -332,4 +340,4 @@ async def frankyonmyserver(ctx):
     em.set_footer(text=time.strftime("Le %d/%m/%Y à %H:%M:%S"))
     await bot.say(embed=em)
 
-bot.run('MzE0MDMxODQxNjQyNDE0MDgw.C_yQdQ.j_fhmX6hK1IUM63UNFux5exbsGE')
+bot.run('MzE0MDMxODQxNjQyNDE0MDgw.C_yVEQ.W46qusFYjg9-sE2QWzBexfxtvJM')

@@ -8,7 +8,7 @@ Franky est conçu pour fonctionner "out of the box", c'est a dire qu'il ne néce
 
 Toutefois, il sera quand même nécéssaire de faire deux chose :
 
-> 1) Donner un rôle qui a les droits d'administrateur a Franky
+> 1) Donner un rôle (ou créez en un pour lui) qui a les droits d'administrateur a Franky
 > 2) Créer un salon textuel avec le nom "administration_bot"
 
 En effet, Franky a un système d'alertes qui vous préviens si un membre non autorisé essaye d'exécuter une commande comme `!clear` ou vous préviens si un membre appelles un admin avec `!admincall`

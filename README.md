@@ -13,6 +13,7 @@ Toutefois, il sera quand même nécéssaire de faire deux chose :
 
 En effet, Franky a un système d'alertes qui vous préviens si un membre non autorisé essaye d'exécuter une commande comme `!clear` ou vous préviens si un membre appelles un admin avec `!admincall`
 
+Exemples d'alertes :  
 >![image pour !clear non autorisé](https://github.com/VinCySrOw/SrOw_bot/blob/master/readme_images/Capture%20d’écran%202017-05-16%20à%2014.29.56.png)
 >![image pour !admincall](https://github.com/VinCySrOw/SrOw_bot/blob/master/readme_images/Capture%20d’écran%202017-05-16%20à%2014.30.30.png)
 

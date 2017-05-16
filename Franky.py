@@ -48,7 +48,8 @@ async def on_ready():
 
     em.set_footer(text=time.strftime("Le %d/%m/%Y à %H:%M:%S"))
     await bot.send_message(bot.get_channel('310127519753830400'), embed=em)
-    await bot.change_presence(game=discord.Game(name='!help ｜ BETA v0.8'))
+    await bot.change_presence(game=discord.Game(name="rien"))
+    await bot.change_presence(game=discord.Game(name="!help ｜ BETA v1.0"))
 
 @bot.event
 async def on_member_join(member):
@@ -59,7 +60,6 @@ async def on_member_join(member):
 
     em.set_footer(text=time.strftime("Le %d/%m/%Y à %H:%M:%S"))
     await bot.send_message(server, embed=em)
-    await bot.add_roles(member, discord.Object("310129439256084482"))
     
     print (bcolors.WARNING + (time.strftime("%d/%m/%Y %H:%M:%S")) + bcolors.ENDC, ":", 
         bcolors.WARNING + ("{}").format(member.name) + 
@@ -126,6 +126,7 @@ async def botsysteminfo(ctx):
     em.set_footer(text=time.strftime("Le %d/%m/%Y à %H:%M:%S"))
     await bot.say(embed=em)
     command_logs(cmd_str, author, message)
+    print(message.channel.id)
 
 @bot.command(pass_context=True)
 async def help(ctx):
@@ -185,7 +186,7 @@ async def reload(ctx):
                 message.channel.name, colour=0xf39c12)
 
             em2.set_footer(text=time.strftime("Le %d/%m/%Y à %H:%M:%S"))
-            await bot.send_message(discord.Object("312523151126953984"), embed=em2)
+            await bot.send_message(discord.Object("313829118011506690"), embed=em2)
     else:
         
         em = discord.Embed(title="Vous n'êtes pas autorisé a faire cela !", 
@@ -196,43 +197,54 @@ async def reload(ctx):
 
         em.set_footer(text=time.strftime("Le %d/%m/%Y à %H:%M:%S"))
         await bot.say(embed=em)
-        await bot.send_message(discord.Object("312523151126953984"), embed=em3)
+        await bot.send_message(discord.Object("313829118011506690"), embed=em3)
 
 @bot.command(pass_context=True)
 async def clear(ctx):
     cmd_str = "!clear"
     message = ctx.message
     author = message.author
-    if author.server_permissions.administrator == True:
-        counter = 0
-        tmp = await bot.say('Nettoyage des messages...')
-        await asyncio.sleep(5)
-        async for msg in bot.logs_from(message.channel):
-            counter += 1
-            await bot.delete_message(msg)    
+    server = author.server
+    channel = discord.utils.get(server.channels, name='administration_bot')
+    channel_str = str(channel)
+    if channel_str == "administration_bot":
+        channel_id = channel.id
+        if author.server_permissions.administrator == True:
+            counter = 0
+            tmp = await bot.say('Nettoyage des messages...')
+            await asyncio.sleep(5)
+            async for msg in bot.logs_from(message.channel):
+                counter += 1
+                await bot.delete_message(msg)    
         
-        em = discord.Embed(title='Nettoyage terminé', 
-            description=("{} messages ont été supprimés dans ce salon.".format(counter)), colour=0x43b581)
+            em = discord.Embed(title='Nettoyage terminé', 
+                description=("{} messages ont été supprimés dans ce salon.".format(counter)), colour=0x43b581)
 
-        em.set_footer(text=time.strftime("Le %d/%m/%Y à %H:%M:%S"))
-        await bot.say(embed=em)
-        command_logs(cmd_str, author, message)
+            em.set_footer(text=time.strftime("Le %d/%m/%Y à %H:%M:%S"))
+            await bot.say(embed=em)
+            command_logs(cmd_str, author, message)
 
+        else:
+        
+            em2 = discord.Embed(title="Vous n'êtes pas autorisé a faire cela !", 
+                description="Seuls les administrateurs peuvent lancer cetter commande.", colour=0xe74c3c)
+
+            command_logs_critics(cmd_str, author, message)
+
+            em2.set_footer(text=time.strftime("Le %d/%m/%Y à %H:%M:%S"))
+            await bot.say(embed=em2)
+        
+            em3 = discord.Embed(title=message.author.name + " a tenté d'éxécuter la commande **!clear** dans #" + 
+                message.channel.name, colour=0xf39c12)
+
+            em3.set_footer(text=time.strftime("Le %d/%m/%Y à %H:%M:%S"))
+            await bot.send_message(discord.Object(channel_id), embed=em3)
     else:
-        
-        em2 = discord.Embed(title="Vous n'êtes pas autorisé a faire cela !", 
-            description="Seuls les administrateurs peuvent lancer cetter commande.", colour=0xe74c3c)
-
-        command_logs_critics(cmd_str, author, message)
-
+        em2 = discord.Embed(title="Salon d'administration non trouvé..", 
+            description=("Le bot a besoin d'un salon **administration_bot** pour fonctionner correctement..\n"
+                "Si vous en avez déjà créé un, vérifier que vous l'avez bien orthographié. "), colour=0xe74c3c)
         em2.set_footer(text=time.strftime("Le %d/%m/%Y à %H:%M:%S"))
         await bot.say(embed=em2)
-        
-        em3 = discord.Embed(title=message.author.name + " a tenté d'éxécuter la commande **!clear** dans #" + 
-            message.channel.name, colour=0xf39c12)
-
-        em3.set_footer(text=time.strftime("Le %d/%m/%Y à %H:%M:%S"))
-        await bot.send_message(discord.Object("312523151126953984"), embed=em3)
 
 @bot.command(pass_context=True)
 async def askfranky(ctx):
@@ -266,22 +278,32 @@ async def gitbot(ctx):
 
 @bot.command(pass_context=True)
 async def admincall(ctx):
-    cmd_str = "!admincall"
     message = ctx.message
     author = message.author
-    em = discord.Embed(title="Un administrateur a été appelé.", colour=0x43b581)
-    em.set_footer(text=time.strftime("Le %d/%m/%Y à %H:%M:%S"))
-    await bot.say(embed=em)
-    em3 = discord.Embed(title=message.author.name + " a appelé un admin dans #" + message.channel.name, colour=0x43b581)
-    em3.set_footer(text=time.strftime("Le %d/%m/%Y à %H:%M:%S"))
-    await bot.send_message(discord.Object("312523151126953984"), embed=em3)
+    server = author.server
+    channel = discord.utils.get(server.channels, name='administration_bot')
+    channel_str = str(channel)
+    if channel_str == "administration_bot":
+        channel_id = channel.id
+        cmd_str = "!admincall"
+        em = discord.Embed(title="Un administrateur a été appelé.", colour=0x43b581)
+        em.set_footer(text=time.strftime("Le %d/%m/%Y à %H:%M:%S"))
+        await bot.say(embed=em)
+        em3 = discord.Embed(title=message.author.name + " a appelé un admin dans #" + message.channel.name, colour=0x43b581)
+        em3.set_footer(text=time.strftime("Le %d/%m/%Y à %H:%M:%S"))
+        await bot.send_message(discord.Object(channel_id), embed=em3)
+        print (bcolors.WARNING + 
+            (time.strftime("%d/%m/%Y %H:%M:%S")) + 
+            bcolors.ENDC, ":", bcolors.WARNING + ("{}").format(author.name) + 
+            bcolors.ENDC, "a appelé un admin dans", bcolors.WARNING + ("#{}".format(message.channel.name)) + 
+            bcolors.ENDC, "avec succès sur le serveur : ", bcolors.WARNING + message.server.name + bcolors.ENDC)
+    else:
+        em2 = discord.Embed(title="Salon d'administration non trouvé..", 
+            description=("Le bot a besoin d'un salon **administration_bot** pour fonctionner correctement..\n"
+                "Si vous en avez déjà créé un, vérifier que vous l'avez bien orthographié. "), colour=0xe74c3c)
+        em2.set_footer(text=time.strftime("Le %d/%m/%Y à %H:%M:%S"))
+        await bot.say(embed=em2)
     
-    print (bcolors.WARNING + 
-        (time.strftime("%d/%m/%Y %H:%M:%S")) + 
-        bcolors.ENDC, ":", bcolors.WARNING + ("{}").format(author.name) + 
-        bcolors.ENDC, "a appelé un admin dans", bcolors.WARNING + ("#{}".format(message.channel.name)) + 
-        bcolors.ENDC, "avec succès sur le serveur : ", bcolors.WARNING + message.server.name + bcolors.ENDC)
-
 @bot.command(pass_context=True)
 async def ping(ctx):
     cmd_str = "!ping"
@@ -300,13 +322,12 @@ async def frankyonmyserver(ctx):
     cmd_str = "!frankyonmyserver"
     message = ctx.message
     author = message.author
-    await bot.say("En cours de dévellopement...")
+#    await bot.say("En cours de dévellopement...")
     command_logs(cmd_str, author, message)
-    '''
     em = discord.Embed(title='Franky sur votre serveur !', 
     description=("Pour ajouter Franky a votre serveur, cliquez "
-    "**[sur ce lien !](https://discordapp.com/oauth2/authorize?client_id=313592994886320139&scope=bot&permissions=0)**)", colour=0x43b581)
+    "**[sur ce lien !](https://discordapp.com/oauth2/authorize?client_id=313789513522610176&scope=bot&permissions=0)**"), colour=0x43b581)
     em.set_footer(text=time.strftime("Le %d/%m/%Y à %H:%M:%S"))
-    await bot.say(embed=em)'''
+    await bot.say(embed=em)
 
-bot.run('MzEzNzg5NTEzNTIyNjEwMTc2.C_uu5w.f8sDZ1JbO1JXlq-nzrIbFWz4sdA')
+bot.run('MzEzNzg5NTEzNTIyNjEwMTc2.C_x7Dg.DFajy0F2DU3guQfvVthSZvHAJKM')

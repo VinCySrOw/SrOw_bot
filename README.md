@@ -14,4 +14,4 @@ En effet, Franky a un système d'alertes qui vous préviens si un membre non aut
 ## Le code source est mit a disposition dans un but éducatif ##
 L'entièreté du code source est mise a disposition pour que vous puissiez vous inspirer, cependant, s'il vous plait utiliser le lien oauth2 pour ajouter le bot a votre serveur. 
 
-> Ajouter Franky a votre serveur [en cliquant ici](https://discordapp.com/oauth2/authorize?client_id=313789513522610176&scope=bot&permissions=0)
+**Ajouter Franky a votre serveur [en cliquant ici](https://discordapp.com/oauth2/authorize?client_id=313789513522610176&scope=bot&permissions=0)**
